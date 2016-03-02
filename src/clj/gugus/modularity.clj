@@ -54,7 +54,7 @@
          initial-dq-heap (build-dq-heap pairs edge-group c true)
          initial-a (build-a pairs edge-group c true)
          ]
-     (Network. initial-communities initial-edge-table initial-dq-heap initial-a 0 nil)))
+     (Network. initial-communities initial-edge-table initial-dq-heap initial-a 0 nil))))
 
 (defn merge-community [network]
   (let [[[i j] v] (peek (:dq-heap network))

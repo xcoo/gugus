@@ -1,10 +1,27 @@
 # gugus
 
-Fast and scalable network clustering library
+Fast and scalable network clustering library using [Fast Modularity](http://www.cs.unm.edu/~aaron/research/fastmodularity.htm) algorithm.
 
 ## Usage
 
-TODO
+```
+(require 'gugus.core)
+
+(def pairs [["AAA" "BBB"]
+            ["AAA" "CCC"]
+            ["AAA" "DDD"]
+            ["AAA" "EEE"]
+            ...
+            ["III" "LLL"]
+            ["JJJ" "KKK"]
+            ["JJJ" "LLL"]
+            ["KKK" "LLL"]]) ; graph edges
+
+(gugus.core/cluster-mm pairs)
+;; => {:q 0.420654296875
+;;     :communities {"LLL" #{"III" "KKK" "JJJ" "LLL" "GGG" "HHH"}
+;;                   "FFF" #{"BBB" "DDD" "EEE" "FFF" "CCC" "AAA"}}}
+```
 
 ### Test
 

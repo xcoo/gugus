@@ -1,5 +1,5 @@
 (ns gugus.cli
-  (:require [gugus.modularity :as modularity]
+  (:require [gugus.core :refer [cluster-mm]]
             [gugus.io :as io]
             [clojure.pprint :refer [pprint]])
   (:gen-class))
@@ -8,9 +8,7 @@
   (when (pos? (count args))
     (let [f (first args)
           pairs (io/read-pairs f)
-          rule (io/key-index-rule pairs)
-          npairs (io/prepare-pairs pairs rule)
-          {:keys [q communities]} (modularity/fastcomm npairs)]
-      (pprint (io/transform-communities communities rule))
+          {:keys [q communities]} (cluster-mm pairs)]
+      (pprint  communities)
       (println "Q value =" q))
     (shutdown-agents)))

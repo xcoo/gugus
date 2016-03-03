@@ -1,6 +1,6 @@
 # gugus
 
-Fast network clustering library
+Fast and scalable network clustering library
 
 ## Usage
 

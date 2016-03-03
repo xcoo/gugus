@@ -6,7 +6,7 @@ Fast and scalable network clustering library using [Fast Modularity](http://www.
 
 ## Usage
 
-```
+```clojure
 (require 'gugus.core)
 
 (def pairs [["AAA" "BBB"]
@@ -27,7 +27,7 @@ Fast and scalable network clustering library using [Fast Modularity](http://www.
 
 ### Test
 
-```
+```shell
 lein run -- network.pairs
 ```
 

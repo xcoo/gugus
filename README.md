@@ -28,7 +28,7 @@ Fast and scalable network clustering library using [Fast Modularity](http://www.
 ### Test
 
 ```shell
-lein run -- network.pairs
+lein with-profile test,1.8 midje
 ```
 
 ## Licence

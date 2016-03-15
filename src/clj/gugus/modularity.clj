@@ -26,9 +26,12 @@
        (pmap (fn [i] [i (double (/ (count (get edge-group i)) (* 2 c)))]))
        (into {})))
 
+(defn build-edge-group [pairs]
+  (group-by first pairs))
+
 (defn create-network [pairs]
   (let [pairs (set (pmap sort pairs))
-        edge-group (group-by first pairs)
+        edge-group (build-edge-group pairs)
         c (count pairs)
         initial-communities (reduce (fn [m n] (assoc m n #{n})) {} (set (apply concat pairs)))
         initial-edge-table (build-edge-table pairs)

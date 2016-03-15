@@ -34,27 +34,19 @@
        (pmap (fn [i] [i (double (/ (count (get edge-group i)) (* 2 c)))]))
        (into {})))
 
-(defn create-network
-  ([pairs]
-   (let [pairs (set (pmap sort pairs))
-         edge-group (group-by first pairs)
-         c (count pairs)
-         initial-communities (reduce (fn [m n] (assoc m n #{n})) {} (set (apply concat pairs)))
-         initial-edge-table (build-edge-table pairs)
-         initial-dq-heap (build-dq-heap pairs edge-group c)
-         initial-a (build-a pairs edge-group c)
-         ]
-     (Network. initial-communities initial-edge-table initial-dq-heap initial-a 0 nil)))
-  ([pairs with-weight]
-   (let [wpairs (set pairs)
-         edge-group (group-by first pairs)
-         c (count pairs)
-         initial-communities (reduce (fn [m n w] (assoc m n #{n})) {} (set (apply concat pairs)))
-         initial-edge-table (build-edge-table pairs true)
-         initial-dq-heap (build-dq-heap pairs edge-group c true)
-         initial-a (build-a pairs edge-group c true)
-         ]
-     (Network. initial-communities initial-edge-table initial-dq-heap initial-a 0 nil))))
+(defn build-edge-group [pairs]
+  (group-by first pairs))
+
+(defn create-network [pairs]
+  (let [pairs (set (pmap sort pairs))
+        edge-group (build-edge-group pairs)
+        c (count pairs)
+        initial-communities (reduce (fn [m n] (assoc m n #{n})) {} (set (apply concat pairs)))
+        initial-edge-table (build-edge-table pairs)
+        initial-dq-heap (build-dq-heap pairs edge-group c)
+        initial-a (build-a pairs edge-group c)
+        ]
+    (Network. initial-communities initial-edge-table initial-dq-heap initial-a 0 nil)))
 
 (defn merge-community [network]
   (let [[[i j] v] (peek (:dq-heap network))

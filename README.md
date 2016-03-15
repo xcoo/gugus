@@ -1,15 +1,34 @@
 # gugus
 
-Fast network clustering library
+[![Build Status](https://travis-ci.org/xcoo/gugus.svg?branch=master)](https://travis-ci.org/xcoo/gugus)
+
+Fast and scalable network clustering library using [Fast Modularity](http://www.cs.unm.edu/~aaron/research/fastmodularity.htm) algorithm.
 
 ## Usage
 
-TODO
+```clojure
+(require 'gugus.core)
+
+(def pairs [["AAA" "BBB"]
+            ["AAA" "CCC"]
+            ["AAA" "DDD"]
+            ["AAA" "EEE"]
+            ...
+            ["III" "LLL"]
+            ["JJJ" "KKK"]
+            ["JJJ" "LLL"]
+            ["KKK" "LLL"]]) ; graph edges
+
+(gugus.core/cluster-mm pairs)
+;; => {:q 0.420654296875
+;;     :communities {"LLL" #{"III" "KKK" "JJJ" "LLL" "GGG" "HHH"}
+;;                   "FFF" #{"BBB" "DDD" "EEE" "FFF" "CCC" "AAA"}}}
+```
 
 ### Test
 
-```
-lein run -- network.pairs
+```shell
+lein with-profile test,1.8 midje
 ```
 
 ## Licence

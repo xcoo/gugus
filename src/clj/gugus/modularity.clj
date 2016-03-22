@@ -6,18 +6,12 @@
 (defrecord Network [communities edge-table dq-heap a q last-edge])
 
 (defn build-edge-table
-  ([edge-pairs]
-   (let [edge-pairs (concat edge-pairs (map reverse edge-pairs))]
-     (->> edge-pairs
-          (group-by first)
-          (map (fn [[k es]] [k (set (map second es))]))
-          (into {}))))
-  ([edge-pairs with-weight]
-   (let [edge-pairs (concat edge-pairs (map reverse edge-pairs))]
-     (->> edge-pairs
-          (group-by first)
-          (map (fn [[k es]] [k (set (map second es))]))
-          (into {})))))
+  [edge-pairs]
+  (let [edge-pairs (concat edge-pairs (map reverse edge-pairs))]
+    (->> edge-pairs
+         (group-by first)
+         (map (fn [[k es]] [k (set (map second es))]))
+         (into {}))))
 
 (defn build-dq-heap
   [edge-pairs edge-group c]

@@ -108,21 +108,3 @@
                 max-comm))
        {:q max-q
         :communities max-comm}))))
-
-(defn fastcomm-w
-  ([pairs]
-   (fastcomm pairs nil))
-  ([pairs log-out]
-   (loop [net (create-network-w pairs)
-          max-q Double/NEGATIVE_INFINITY
-          max-comm nil]
-     (when (and log-out (:last-edge net))
-       (println (str (clojure.string/join "\t" (:last-edge net)) "\t" (:q net))))
-     (if (pos? (count (:dq-heap net)))
-       (recur (merge-community net)
-              (max max-q (double (:q net)))
-              (if (< max-q (:q net))
-                (:communities net)
-                max-comm))
-       {:q max-q
-        :communities max-comm}))))

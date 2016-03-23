@@ -10,7 +10,7 @@
     {:q q
      :communities (io/transform-communities communities rule)}))
 
-(defn cluster-mm-w [wpairs]
+(defn cluster-weight-mm [wpairs]
   (let [rule (io/key-index-rule wpairs)
         npairs (io/prepare-pairs wpairs rule)
         {:keys [q communities]} (wmodularity/fastcomm wpairs)]

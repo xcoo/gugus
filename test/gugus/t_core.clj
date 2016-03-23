@@ -14,3 +14,10 @@
               io/file
               .getPath)]
     (core/cluster-mm (read-pairs f))) => sample-result)
+
+(fact "cluster mm weight"
+  (let [f (-> "sample.wpairs"
+              io/resource
+              io/file
+              .getPath)]
+    (core/cluster-weight-mm (read-pairs f))) => sample-result)

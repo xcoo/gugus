@@ -5,14 +5,16 @@
 
 (defrecord Network [communities edge-table dq-heap a q last-edge])
 
-(defn build-edge-table [edge-pairs]
+(defn build-edge-table
+  [edge-pairs]
   (let [edge-pairs (concat edge-pairs (map reverse edge-pairs))]
     (->> edge-pairs
          (group-by first)
          (map (fn [[k es]] [k (set (map second es))]))
          (into {}))))
 
-(defn build-dq-heap [edge-pairs edge-group c]
+(defn build-dq-heap
+  [edge-pairs edge-group c]
   (let [heap (p/priority-map-by >)]
     (reduce
       (fn [hp k] (assoc hp k ;; (vec (sort k)) -> crash!
@@ -26,9 +28,12 @@
        (pmap (fn [i] [i (double (/ (count (get edge-group i)) (* 2 c)))]))
        (into {})))
 
+(defn build-edge-group [pairs]
+  (group-by first pairs))
+
 (defn create-network [pairs]
   (let [pairs (set (pmap sort pairs))
-        edge-group (group-by first pairs)
+        edge-group (build-edge-group pairs)
         c (count pairs)
         initial-communities (reduce (fn [m n] (assoc m n #{n})) {} (set (apply concat pairs)))
         initial-edge-table (build-edge-table pairs)
@@ -54,7 +59,7 @@
         new-edge-table (reduce (fn [e-table e] (update e-table e disj i)) new-edge-table (get (:edge-table network) i))
         new-edge-table (reduce (fn [e-table e] (update e-table e conj j)) new-edge-table (get (:edge-table network) i))
         new-edge-table (update new-edge-table j disj j)
-        ;new-edge-table (dissoc new-edge-table i)
+        new-edge-table (dissoc new-edge-table i)
         dq-ij (keep (fn [e]
                       (let [jk (vec (sort [j e])) ik (vec (sort [i e]))]
                         (when (and (apply not= jk)); (not= e i)) ;; TODO
@@ -94,7 +99,7 @@
           max-q Double/NEGATIVE_INFINITY
           max-comm nil]
      (when (and log-out (:last-edge net))
-       (println (clojure.string/join "\t" (:last-edge net))))
+       (println (str (clojure.string/join "\t" (:last-edge net)) "\t" (:q net))))
      (if (pos? (count (:dq-heap net)))
        (recur (merge-community net)
               (max max-q (double (:q net)))

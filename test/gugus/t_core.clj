@@ -8,6 +8,10 @@
                     :communities {"LLL" #{"III" "KKK" "JJJ" "LLL" "GGG" "HHH"}
                                   "FFF" #{"BBB" "DDD" "EEE" "FFF" "CCC" "AAA"}}})
 
+(def weight-sample-result {:q 0.8618539514068584
+                           :communities {"LLL" #{"III" "KKK" "JJJ" "LLL" "GGG" "HHH"}
+                                         "FFF" #{"BBB" "DDD" "EEE" "FFF" "CCC" "AAA"}}})
+
 (fact "cluster mm"
   (let [f (-> "sample.pairs"
               io/resource
@@ -20,4 +24,4 @@
               io/resource
               io/file
               .getPath)]
-    (core/cluster-weight-mm (read-pairs f))) => sample-result)
+    (core/cluster-weight-mm (read-pairs f))) => weight-sample-result)

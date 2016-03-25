@@ -40,15 +40,15 @@ Add the following dependency to your project.clj:
 ```clojure
 (require 'gugus.core)
 
-(def pairs [["AAA" "BBB" "0.403"]
-            ["AAA" "CCC" "0.135"]
-            ["AAA" "DDD" "0.224"]
-            ["AAA" "EEE" "0.336"]
+(def pairs [["AAA" "BBB" 0.403]
+            ["AAA" "CCC" 0.135]
+            ["AAA" "DDD" 0.224]
+            ["AAA" "EEE" 0.336]
             ...
-            ["III" "LLL" "0.378"]
-            ["JJJ" "KKK" "0.068"]
-            ["JJJ" "LLL" "0.949"]
-            ["KKK" "LLL" "0.363"]]) ; graph edges with weight
+            ["III" "LLL" 0.378]
+            ["JJJ" "KKK" 0.068]
+            ["JJJ" "LLL" 0.949]
+            ["KKK" "LLL" 0.363]]) ; graph edges with weight
 
 (gugus.core/cluster-weight-mm pairs)
 ;; => {:q 0.8618539514068584

@@ -39,7 +39,7 @@
         dq-heap (p/priority-map-by >)]
     (reduce (fn [dq pair]
               (let [eij (/ (weight pair) (* 2.0 global-weights))]
-                (assoc dq (vector (i pair) (j pair)) (* 2.0 (- eij (* (get a (i pair)) (get a (j pair))))))))
+                (assoc dq (vec (sort [(i pair) (j pair)])) (* 2.0 (- eij (* (get a (i pair)) (get a (j pair))))))))
             dq-heap wpairs)))
 
 (defn build-edge-table

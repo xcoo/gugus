@@ -98,10 +98,7 @@
     (if (zero? (count (:t t-updated)))
       t-updated
       (let [selected-vertex (apply min-key #(count (gamma t-updated %)) (:t t-updated))
-            _ (println selected-vertex)
             dQ-sets (map #(vector % (dQ t-updated selected-vertex %)) (gamma t-updated selected-vertex)); (get-in t-updated [:neighbors selected-vertex]))
-            _ (println (get-in t-updated [:neighbors selected-vertex]))
-            _ (println dQ-sets)
             vertex-v (apply max-key second dQ-sets)]
         (if (> (second vertex-v) 0)
           (-> t-updated
@@ -111,13 +108,19 @@
                               (conj (first vertex-v)))))
           (update t-updated :t #(clojure.set/difference % #{selected-vertex})))))))
 
-; (let [pairs [[:A :B] [:A :C] [:B :C] [:C :D]]
-;       graph (create-graph pairs)]
-;   (shiokawa-iteration (last (take-while #(> (count (:t %)) 0)
-;         (iterate shiokawa-iteration graph)))))
+(defn shiokawa
+  [graph]
+  (shiokawa-iteration
+    (last (take-while #(> (count (:t %)) 0)
+                      (iterate shiokawa-iteration graph)))))
+  
+;(defn -main [& args]
+;  (let [pairs [[:A :B] [:A :C] [:B :C] [:C :D]]
+;        graph (create-graph pairs)]
+;    (println (:belongs-to (shiokawa-iteration (last (take-while #(> (count (:t %)) 0)
+;                                                                (iterate shiokawa-iteration graph))))))))
 
 (defn -main [& args]
-  (let [pairs (io/read-pairs "./test-resources/big.npairs"); (io/read-pairs "./test-resources/sample.npairs")
-        graph (create-graph pairs)]
-    (println (:belongs-to (shiokawa-iteration (last (take-while #(> (count (:t %)) 0)
-                                                                (iterate shiokawa-iteration graph))))))))
+   (let [pairs (io/read-pairs "./test-resources/big.npairs"); (io/read-pairs "./test-resources/sample.npairs")
+         graph (create-graph pairs)]
+     (println (:belongs-to (shiokawa graph)))))

@@ -3,7 +3,8 @@
   :url "https://github.com/xcoo/gugus"
   :license {:name "Apache License, Version 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
-  :dependencies [[org.clojure/data.priority-map "0.0.7"]]
+  :dependencies [[org.clojure/data.priority-map "0.0.7"]
+                 [org.clojure/core.incubator "0.1.3"]]
   :source-paths ["src/clj"]
   :profiles {:dev {:source-paths ["src/profile"]
                    :global-vars {*warn-on-reflection* true}

@@ -12,15 +12,17 @@
 
 (defn profile-sample []
   (profile {}
-           (let [pairs (io/read-pairs "./data/sample.pairs")
+           (let [pairs (io/read-pairs "./test-resources/sample.pairs")
                  network (modularity/create-network pairs)]
-             (modularity/merge-community network))))
+             (modularity/merge-community network)))
+  nil)
 
 (defn profile-large-sample []
   (profile {}
-           (let [pairs (io/read-pairs "./data/solar_cell_2012.num.pairs")
+           (let [pairs (io/read-pairs "./test-resources/big.npairs")
                  network (modularity/create-network pairs)]
-             (modularity/merge-community network))))
+             (modularity/merge-community network)))
+  nil)
 
 (defn run-sample []
-  (modularity/fastcomm (io/read-pairs "./data/sample.pairs") true))
+  (modularity/fastcomm (io/read-pairs "./test-resources/sample.pairs") true))

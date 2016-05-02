@@ -113,7 +113,7 @@
   (shiokawa-iteration
     (last (take-while #(> (count (:t %)) 0)
                       (iterate shiokawa-iteration graph)))))
-  
+
 ;(defn -main [& args]
 ;  (let [pairs [[:A :B] [:A :C] [:B :C] [:C :D]]
 ;        graph (create-graph pairs)]

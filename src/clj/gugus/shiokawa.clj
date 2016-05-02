@@ -1,6 +1,9 @@
 (ns gugus.shiokawa
-  (:require [gugus.io :as io]
+  (:require [clojure.set]
             [clojure.core.incubator :as incubator]))
+
+;; Fast Algorithm for Modularity-Based Graph Clustering
+;; c.f. https://www.aaai.org/ocs/index.php/AAAI/AAAI13/paper/view/6188/6884
 
 (defn map-hashmap [f hashmap]
   (->> hashmap (map f) (into {})))
@@ -93,8 +96,7 @@
                              prune-sets)
         t-updated (as-> pruned-graph x
                       (update x :t #(clojure.set/difference % (set (map first prune-sets))))
-                      (update x :t #(clojure.set/difference % (set (filter (fn [v] (zero? (count (gamma pruned-graph v)))) (:t x))))))
-        ]
+                      (update x :t #(clojure.set/difference % (set (filter (fn [v] (zero? (count (gamma pruned-graph v)))) (:t x))))))]
     (if (zero? (count (:t t-updated)))
       t-updated
       (let [selected-vertex (apply min-key #(count (gamma t-updated %)) (:t t-updated))
@@ -109,18 +111,8 @@
           (update t-updated :t #(clojure.set/difference % #{selected-vertex})))))))
 
 (defn shiokawa
-  [graph]
-  (shiokawa-iteration
-    (last (take-while #(> (count (:t %)) 0)
-                      (iterate shiokawa-iteration graph)))))
-
-;(defn -main [& args]
-;  (let [pairs [[:A :B] [:A :C] [:B :C] [:C :D]]
-;        graph (create-graph pairs)]
-;    (println (:belongs-to (shiokawa-iteration (last (take-while #(> (count (:t %)) 0)
-;                                                                (iterate shiokawa-iteration graph))))))))
-
-(defn -main [& args]
-   (let [pairs (io/read-pairs "./test-resources/big.npairs"); (io/read-pairs "./test-resources/sample.npairs")
-         graph (create-graph pairs)]
-     (println (:belongs-to (shiokawa graph)))))
+  [pairs]
+  (let [graph (create-graph pairs)]
+    (shiokawa-iteration
+     (last (take-while #(> (count (:t %)) 0)
+                       (iterate shiokawa-iteration graph))))))

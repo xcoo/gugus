@@ -3,6 +3,8 @@
             [clojure.set :refer [union]]
             [clojure.data.priority-map :as p]))
 
+;; c.f. http://www.cs.unm.edu/~aaron/research/fastmodularity.htm
+
 (defrecord Network [communities edge-table dq-heap a q last-edge])
 
 (defn build-edge-table

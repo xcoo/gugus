@@ -4,6 +4,8 @@
             [clojure.data.priority-map :as p]
             [gugus.modularity :as modularity]))
 
+;; c.f. http://www.cs.unm.edu/~aaron/research/fastmodularity.htm
+
 (defn map-hashmap [f hashmap]
   (->> hashmap
        (map f)
